@@ -1,3 +1,5 @@
+#ifndef _READER_
+#define _READER_
 #include <fstream>
 #include <string>
 #include <exception>
@@ -32,3 +34,4 @@ class Reader
 
 
 };
+#endif
