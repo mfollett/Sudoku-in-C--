@@ -19,4 +19,6 @@ char Reader::next()
         }
         refill_iterator();
     }while( ! stream.eof() );
+    return END;
 }
+

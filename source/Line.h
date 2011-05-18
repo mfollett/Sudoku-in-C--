@@ -29,6 +29,11 @@ class Line
 
         }
 
+        int size() const
+        {
+            return store.size();
+        }
+
         shorts::iterator begin()
         {
             return store.begin();

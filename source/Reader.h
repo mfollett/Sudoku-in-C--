@@ -6,13 +6,10 @@
 using std::ifstream;
 using std::string;
 
-#include <iostream>;
-using std::cout;
-using std::endl;
-
 class Reader
 {
     public:
+        static const char END = 0;
         Reader(std::string filename) : stream(filename.c_str())
         {
             refill_iterator();
@@ -24,7 +21,6 @@ class Reader
         void refill_iterator()
         {
             stream >> buffer;
-            cout << "Got new buffer: " << buffer << endl;
             buffer_iterator = buffer.begin();
         }
 
