@@ -1,4 +1,4 @@
 #include <vector>
 
-typedef std::vector<short> shorts;
+typedef std::vector<unsigned short> shorts;
 

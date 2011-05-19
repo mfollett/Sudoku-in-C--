@@ -12,9 +12,9 @@ template <int T>
 class Board
 {
     public:
-        static const short BLANK = 0;
-        static const short POSSIBLE_VALUE_COUNT = 10;
-        const short SIZE;
+        static const unsigned short BLANK = 0;
+        static const unsigned short POSSIBLE_VALUE_COUNT = 10;
+        const unsigned short SIZE;
         Board( std::string board_file_name) : SIZE(T)
         {
             build_board(board_file_name);
@@ -33,14 +33,14 @@ class Board
 
 
         template <int S>
-        Board( Board<S> big_board, short i, short j ) : SIZE(T)
+        Board( Board<S> big_board, unsigned short i, unsigned short j ) : SIZE(T)
         {
-            short i_sector = i/SIZE;
-            short j_sector = j/SIZE;
-            for( short subspace_i = 0; subspace_i < SIZE; subspace_i++ )
+            unsigned short i_sector = i/SIZE;
+            unsigned short j_sector = j/SIZE;
+            for( unsigned short subspace_i = 0; subspace_i < SIZE; subspace_i++ )
             {
                 shorts line;
-                for( short subspace_j = 0; subspace_j < SIZE; subspace_j++ )
+                for( unsigned short subspace_j = 0; subspace_j < SIZE; subspace_j++ )
                 {
                     line.push_back(big_board.get(i_sector * SIZE + subspace_i, j_sector * SIZE + subspace_j));
                 }
@@ -48,7 +48,7 @@ class Board
             }
         }
 
-        char get(short i, short j) const
+        char get(unsigned short i, unsigned short j) const
         {
             return board[i][j];
         }
@@ -59,7 +59,7 @@ class Board
         void build_board(std::string board_file_name)
         {
             Reader reader(board_file_name);
-            short i = 0, j = 0;
+            unsigned short i = 0, j = 0;
             while( char c = reader.next() )
             {
 
@@ -74,7 +74,7 @@ class Board
                 }
                 else
                 {
-                    board[i][j] = boost::lexical_cast<short>(c);
+                    board[i][j] = boost::lexical_cast<unsigned short>(c);
                 }
                 j++;
             }
