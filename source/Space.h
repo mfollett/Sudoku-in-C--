@@ -3,41 +3,63 @@
 
 #include <vector>
 
-#include "Sudoku.h"
-#include "Line.h"
 #include "types.h"
+
 
 class Space
 {
     public:
         Space(const Sudoku board, short i, short j)
-            : vertical( board, i ), horizontal( board, j ), square( board, i, j)
-        {
-        }
+            : vertical( board, j ), horizontal( board, i ),
+              square( board, i, j), _i(i), _j(j), got_possible_values(false)
+        { }
+
+        Space(const Space &s)
+            : vertical(s.vertical), horizontal(s.horizontal), square(s.square),
+              _i(s._i), _j(s._j) {}
+
+        Space() : vertical(), horizontal(), square(), _i(0), _j(0) {}
 
         shorts possible_values()
         {
-            shorts values(Sudoku::POSSIBLE_VALUE_COUNT, 0); // number of possible values plus blank
-            values[Sudoku::BLANK]++; // blank is never an option
-            populate_values( vertical, values);
-            populate_values( horizontal, values);
-            populate_values_from_square( values );
-            return extract_nonzero_values( values );
+            if(!got_possible_values)
+            {
+                shorts values(Sudoku::POSSIBLE_VALUE_COUNT, 0); // number of possible values plus blank
+                values[Sudoku::BLANK]++; // blank is never an option
+                populate_values( vertical, values);
+                populate_values( horizontal, values);
+                populate_values_from_square( values );
+                cached_possible_values = extract_nonzero_values( values );
+            }
+            return cached_possible_values;
         }
 
+        static bool sort_by_restrictions( Space a, Space b )
+        {
+            return a.possible_values().size() < b.possible_values().size();
+        }
+
+        unsigned short i() const { return _i; }
+        unsigned short j() const { return _j; }
+
     private:
-        const Line<line::VERTICAL> vertical;
-        const Line<line::HORIZONTAL> horizontal;
-        const SubBoard square;
+        VerticalLine vertical;
+        HorizontalLine horizontal;
+        SubBoard square;
+        unsigned short _i;
+        unsigned short _j;
+        bool  got_possible_values;
+        shorts cached_possible_values;
 
         template <line::direction T>
         void populate_values( Line<T> line, shorts &values )
         {
             shorts::iterator i = line.begin();
-            do
+            while( i != line.end() )
             {
                 values[*i]++;
-            }while( ++i != line.end() );
+                i++;
+            }
         }
 
         void populate_values_from_square( shorts &values )

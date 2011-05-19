@@ -6,7 +6,6 @@
 #include <assert.h>
 
 #include "types.h"
-#include "Reader.h"
 
 template <int T>
 class Board
@@ -14,7 +13,20 @@ class Board
     public:
         static const unsigned short BLANK = 0;
         static const unsigned short POSSIBLE_VALUE_COUNT = 10;
-        const unsigned short SIZE;
+        unsigned short SIZE;
+
+        Board<T>() : SIZE(T)
+        {
+            for( int i = 0; i < T; i++ )
+            {
+                for( int j = 0; j < T; j++ )
+                {
+                    board[i][j] = 0;
+                }
+            }
+        }
+
+
         Board( std::string board_file_name) : SIZE(T)
         {
             build_board(board_file_name);
@@ -53,6 +65,29 @@ class Board
             return board[i][j];
         }
 
+        void set(unsigned short i, unsigned short j, unsigned short val)
+        {
+            board[i][j] = val;
+        }
+
+        spaces get_variables() const
+        {
+            spaces rets;
+
+            for( unsigned short i = 0; i < board.size(); i++ )
+            {
+                for( unsigned short j = 0; j < board[i].size(); j++ )
+                {
+                    if( 0 == board[i][j] )
+                    {
+                        rets.push_back(Space(board, i, j));
+                    }
+                }
+            }
+
+            return rets;
+        }
+
     private:
         std::vector<shorts> board;
 
@@ -81,7 +116,5 @@ class Board
         }
 };
 
-typedef Board<9> Sudoku;
-typedef Board<3> SubBoard;
 
 #endif

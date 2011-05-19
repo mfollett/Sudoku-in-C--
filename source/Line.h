@@ -1,17 +1,13 @@
 #ifndef _LINE_
 #define _LINE_
-#include "Sudoku.h"
 #include "types.h"
-
-namespace line
-{
-    enum direction { VERTICAL, HORIZONTAL };
-}
 
 template <line::direction T>
 class Line
 {
     public:
+        Line<T>() {}
+
         Line<T>( const Sudoku &board, short i )
         {
             for( short j = 0; board.SIZE > j; j++ )

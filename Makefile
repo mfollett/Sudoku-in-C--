@@ -7,6 +7,8 @@ RUNNEROBJS := $(patsubst %.cpp,%.o,$(wildcard source/*.cpp))
 testrunner: $(TESTOBJS) $(RUNNEROBJS)
 	$(CC) $(LDFLAGS) source/*.o tests/*.o -o testrunner
 
+runner:  $(RUNNEROBJS) runner.o
+	$(CC) $(LDFLAGS) source/*.o runner.o -o testrunner
 clean:
 	rm source/*.o
 	rm tests/*.o

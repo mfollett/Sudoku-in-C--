@@ -16,6 +16,11 @@ class SpaceTest : public NeedsSudoku
     public:
     void testPossibleValues()
     {
+        for(int i=0; i < board->SIZE; i++)
+        {
+            board->set(1,i, 2); // break the pattern so there are possible values
+        }
+
         Space sp1 = Space( *board, 0, 0);
         CPPUNIT_ASSERT( 0 == sp1.possible_values().size() );
 
